@@ -1,0 +1,103 @@
+int a1, a2;
+int c1, c2;
+int d1, d2;
+int b1, b2;
+String a2new, b2new, c2new, d2new;
+String stringOne, stringTwo, stringThree, stringFour;
+String result;
+void setup()
+{
+  Serial.begin(9600);
+  randomSeed(analogRead(0));
+}
+
+void loop()
+{
+  a2 = random(0, 255); 
+  stringOne = String(a2);
+  Serial.println(stringOne);
+  a1 = random(0,2);
+  Serial.println(a1);
+  
+  b2 = random(0,255);  
+  stringTwo = String(b2);
+  Serial.println(stringTwo);
+  b1 = random(0,2);
+  Serial.println(b1);
+  
+  c2 = random(0,255);
+  stringThree = String(c2);
+  Serial.println(stringThree);
+  c1 = random(0,2);
+  Serial.println(c1);
+  
+  
+  d2 = random (0, 255);
+  stringFour = String(d2);  
+  Serial.println(stringFour); 
+  d1 = random(0,2);
+  Serial.println(d1);
+  
+  
+  if (stringOne.length() == 2)
+  {
+    a2new = String ("0" + stringOne);
+  }
+  else if (stringOne.length() == 1)
+  {
+    a2new = String ("00" + stringOne);
+  }
+  else 
+  {
+    a2new = stringOne;
+  }
+  Serial.println(a2new);
+  
+  
+  if (stringTwo.length() == 2)
+  {
+    b2new = String("0" + stringTwo);
+  }
+  else if (stringTwo.length() == 1)
+  {
+    b2new = String ("00" + stringTwo);
+  }
+  else
+  {
+    b2new = stringTwo;
+  }
+  
+  Serial.println(b2new);
+  if (stringThree.length() == 2)
+  {
+    c2new = String ("0" + stringThree);
+  }
+  else if (stringThree.length() == 1)
+  {
+    c2new = String ("00" + stringThree);
+  }
+  else
+  {
+    c2new = stringThree;
+  }
+  Serial.println(c2new);
+  
+  if (stringFour.length() == 2)
+  {
+    d2new = String ("0" + stringFour);
+  }
+  else if (stringFour.length() == 1)
+  {
+    d2new = String ("00" + stringFour);
+  }
+  else
+  {
+    d2new = stringFour;
+  }
+  
+  Serial.println(d2new);
+  
+  result = String ("S" + String(a1) + a2new + String(b1) + b2new + String(c1)+ c2new + String(d1) + d2new + "F");
+  Serial.println(result);
+  while(1);
+}
