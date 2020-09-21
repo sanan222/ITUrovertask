@@ -1,0 +1,65 @@
+#!/usr/bin/env python
+import rospy
+from std_msgs.msg import String
+drive = ""
+def cb1(data1):
+	global drive
+	data = data1.data
+	rospy.loginfo (data)
+	result = ""
+	if data[0] == "A" and data[-1] == "B":
+		chunks = []
+		for i in range (1, 14, 4):
+			chunks.append(data[i:i+4])
+		for i in range (len(chunks)):
+			if float (chunks[i][1:4])>=255:
+				result += "+255 "
+			elif float(chunks[i][1:4])<=-255:
+				result+="-255 "
+			else:
+				if chunks[i][0] == '0':
+					result += '+' + chunks[i][1:4]+''
+				else:
+					result += '-' + chunks[i][1:4]+''
+	drive = result
+	rospy.loginfo(drive)
+	
+arm = ""
+def cb2(data2):
+	global arm
+	data = data2.data
+	rospy.loginfo(data)
+	result = ""
+	if data[0] == "A" and data[-1] == "B":
+		chunks = []
+		for i in range (1, 20, 4):
+			chunks.append(data[i:i+4])
+		for i in range (len(chunks)):
+			if float (chunks[i][1:4])>=255:
+				result+="+255 "
+			elif float(chunks[i][1:4])<=-255:
+				result+="-255 "
+			else:
+				if chunks[i][0] == '0':
+					result+='+' + chunks[i][1:4]+''
+				else:
+					result+='-' + chunks[i][1:4]+''
+	
+	arm = result
+	rospy.loginfo(arm)
+def main():
+	rospy.init_node('sanan', anonymous=True)
+	rospy.Subscriber("/serial/drive", String, cb1)
+	rospy.Subscriber("/serial/robotic_arm", String, cb2)
+	pub1 = rospy.Publisher('/position/drive', String, queue_size = 10)
+	pub2 = rospy.Publisher('position/robotic_arm', String, queue_size = 10)
+	
+	rate = rospy.Rate(10)
+	while not rospy.is_shutdown():
+		pub1.publish(drive)
+		rospy.loginfo(drive)
+
+		pub2.publish(arm)
+		rospy.loginfo(arm)
+		rate.sleep()
+main()
